@@ -1,0 +1,11 @@
+{
+	"name": "crun",
+	"version": "1.0.0",
+	"description": "crun frontend development",
+	"author": "highoutput.io",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Proto-Garage/crun-fe.git"
+	},
+	"license": "ISC"
+}
