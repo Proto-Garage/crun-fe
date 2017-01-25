@@ -1,21 +1,34 @@
 var gulp = require('gulp');
-var copy = require('gulp-contrib-copy');
-var rename = require('gulp-rename');
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
 
-//CSS
-gulp.src('node_modules/bootstrap/dist/css/bootstrap.min.css')
-.pipe(gulp.dest('dist/css'));
+let tasks = [
+  'bootstrap-css',
+  'react',
+  'react-dom',
+  'transpile',
+  'redux',
+  'index'
+];
 
-//JS
-gulp.src('node_modules/bootstrap/dist/js/bootstrap.min.js')
-.pipe(gulp.dest('dist/js'));
-
-//React
-gulp.src('node_modules/react/dist/react.min.js')
-.pipe(gulp.dest('dist/js'));
-
-
-
-gulp.task('default', function() {
-  
+tasks.forEach(function(name) {
+  gulp.task(name, require('./gulp/tasks/' + name));
 });
+
+gulp.task('browserify', [
+  'transpile'
+], function() {
+  return browserify('./dist/js/react/App.js')
+      .bundle()
+      .pipe(source('app.js'))
+      .pipe(gulp.dest('dist/js'));
+});
+
+gulp.task('default',[
+  'browserify',
+  'bootstrap-css',
+  'react',
+  'react-dom',
+  'redux',
+  'index'
+]);

@@ -9,7 +9,7 @@
   },
   "license": "ISC",
   "scripts": {
-    "test": "mocha -w test/browser.js test/*.spec.js",
+    "test": "mocha -w test/browser.js test/*.spec.js"
   },
   "dependencies": {
     "babel-core": "^6.22.1",
@@ -20,20 +20,31 @@
     "babel-preset-stage-0": "^6.22.0",
     "bootstrap": "^3.3.7",
     "lodash": "^4.17.4",
+    "pump": "^1.0.2",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
+    "react-redux": "^5.0.2",
     "redux": "^3.6.0"
   },
   "devDependencies": {
+    "babel-preset-es2015": "^6.22.0",
     "chai": "^3.5.0",
     "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-browserify": "^0.5.1",
+    "gulp-clean": "^0.3.2",
     "gulp-clean-css": "^2.3.2",
+    "gulp-concat": "^2.6.1",
     "gulp-contrib-copy": "^0.1.2",
+    "gulp-htmlmin": "^3.0.0",
     "gulp-importify": "0.0.7",
+    "gulp-inject-modules": "^1.0.0",
     "gulp-rename": "^1.2.2",
+    "gulp-serve": "^1.4.0",
     "gulp-uglify": "^2.0.0",
     "jsdom": "^9.9.1",
     "mocha": "^3.2.0",
-    "react-addons-test-utils": "^15.4.2"
+    "react-addons-test-utils": "^15.4.2",
+    "vinyl-source-stream": "^1.1.0"
   }
 }
