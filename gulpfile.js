@@ -1,6 +1,8 @@
 var gulp = require('gulp');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
+var cleanCSS = require('gulp-clean-css');
+var concat = require('gulp-concat');
 
 let tasks = [
   'bootstrap-css',
@@ -8,13 +10,15 @@ let tasks = [
   'react-dom',
   'transpile',
   'redux',
-  'index'
+  'index',
+  'less'
 ];
 
 tasks.forEach(function(name) {
   gulp.task(name, require('./gulp/tasks/' + name));
 });
 
+//JS
 gulp.task('browserify', [
   'transpile'
 ], function() {
@@ -24,11 +28,22 @@ gulp.task('browserify', [
       .pipe(gulp.dest('dist/js'));
 });
 
+//CSS
+gulp.task('minify-css', [
+  'less',
+], function(){
+  return gulp.src('src/css/less/*.css')
+    .pipe(cleanCSS({compatibility: 'ie8'}))
+    .pipe(concat('style.min.css'))
+    .pipe(gulp.dest('dist/css'));
+});
+
 gulp.task('default',[
   'browserify',
   'bootstrap-css',
   'react',
   'react-dom',
   'redux',
-  'index'
+  'index',
+  'minify-css'
 ]);
