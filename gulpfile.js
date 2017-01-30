@@ -11,7 +11,9 @@ let tasks = [
   'transpile',
   'redux',
   'index',
-  'less'
+  'less',
+  'font-awesome',
+  'font-awesome-fonts'
 ];
 
 tasks.forEach(function(name) {
@@ -45,5 +47,7 @@ gulp.task('default',[
   'react-dom',
   'redux',
   'index',
-  'minify-css'
+  'minify-css',
+  'font-awesome',
+  'font-awesome-fonts'
 ]);

@@ -30,7 +30,7 @@ export default class User extends React.Component {
         </table>
         <div className="row">
           <div className="col-sm-2">
-            <button className="btn btn-success"><i className="fa fa-plus" /> Add User</button>
+            <button className="btn btn-sm btn-success"><i className="fa fa-plus" /> Add User</button>
           </div>
         </div>
       </div>

@@ -11,9 +11,12 @@ export default class Layout extends React.Component {
   }
 
   render(){
+
+    const { location } = this.props;
+
     return (
       <div>
-        <Header title={this.state.title}/>
+        <Header location={location} title={this.state.title}/>
         <div className="container">
           <div className="row">
             <div className="col-sm-12 col-md-12">
