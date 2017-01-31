@@ -1,6 +1,9 @@
 import { Link } from "react-router";
+import { connect } from 'react-redux';
+import { logout } from '../actions/authActions';
 
-export default class Header extends React.Component {
+
+class Header extends React.Component {
 
   constructor() {
     super();
@@ -14,9 +17,14 @@ export default class Header extends React.Component {
     this.setState({collapsed});
   }
 
+  logout(e) {
+    e.preventDefault();
+    this.props.logout();
+  }
+
   render(){
 
-    console.log("Header: ", this.props);
+    const { isAuthenticated } = this.props.auth;
 
     const { location } = this.props;
     const { collapsed } = this.state;
@@ -26,6 +34,19 @@ export default class Header extends React.Component {
     const groupActive = location.pathname === "groups" ? "active" : "";
     const executionActive = location.pathname === "executions" ? "active" : "";
     const navClass = collapsed ? "collapse" : "";
+
+    const userLinks = (
+      <ul className="nav navbar-nav navbar-right">
+        <li><a href="#" onClick={this.logout.bind(this)}>Logout</a></li>
+      </ul>
+    );
+
+    const guestLinks = (
+      <ul className="nav navbar-nav navbar-right">
+        <li><Link to="/login">Login</Link></li>
+      </ul>
+    );
+
 
     return (
       <div>
@@ -42,11 +63,7 @@ export default class Header extends React.Component {
             </div>
 
             <div className={"navbar-collapse " + navClass} id="bs-example-navbar-collapse-1">
-              <ul className="nav navbar-nav">
-              </ul>
-              <ul className="nav navbar-nav navbar-right">
-                <li><Link to="login">Login</Link></li>
-              </ul>
+              { isAuthenticated ? userLinks : guestLinks }
             </div>
           </div>
         </nav>
@@ -54,3 +71,17 @@ export default class Header extends React.Component {
     );
   }
 }
+
+NavigationBar.propTypes = {
+  auth: React.PropTypes.object.isRequired,
+  logout: React.PropTypes.func.isRequired
+}
+
+function mapStateToProps(state) {
+  return {
+    auth: state.auth
+  };
+}
+
+
+export default connect(mapStateToProps, { logout })(Header);
