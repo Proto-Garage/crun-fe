@@ -55,6 +55,7 @@ class LoginForm extends React.Component {
         <TextFieldGroup
           field="username"
           label="Username"
+          customClass="username"
           value={username}
           error={errors.username}
           onChange={this.onChange}
@@ -63,13 +64,16 @@ class LoginForm extends React.Component {
         <TextFieldGroup
           field="password"
           label="Password"
+          customClass="password"
           value={password}
           error={errors.password}
           onChange={this.onChange}
           type="password"
         />
 
-        <div className="form-group"><button className="btn btn-primary" disabled={isLoading}>Login</button></div>
+        <div className="form-group">
+          <button className="btn btn-primary login-button" disabled={isLoading}>Login</button>
+        </div>
       </form>
     );
   }

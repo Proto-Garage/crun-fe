@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { connect } from 'react-redux';
-import { logout } from '../actions/authActions';
+import { logout } from '../../actions/authActions';
 
 
 class Header extends React.Component {
@@ -72,7 +72,7 @@ class Header extends React.Component {
   }
 }
 
-NavigationBar.propTypes = {
+Header.propTypes = {
   auth: React.PropTypes.object.isRequired,
   logout: React.PropTypes.func.isRequired
 }

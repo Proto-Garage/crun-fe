@@ -13,7 +13,8 @@ let tasks = [
   'index',
   'less',
   'font-awesome',
-  'font-awesome-fonts'
+  'font-awesome-fonts',
+  'test'
 ];
 
 tasks.forEach(function(name) {
@@ -40,6 +41,7 @@ gulp.task('minify-css', [
     .pipe(gulp.dest('dist/css'));
 });
 
+
 gulp.task('default',[
   'browserify',
   'bootstrap-css',
@@ -49,5 +51,6 @@ gulp.task('default',[
   'index',
   'minify-css',
   'font-awesome',
-  'font-awesome-fonts'
+  'font-awesome-fonts',
+  'test'
 ]);
