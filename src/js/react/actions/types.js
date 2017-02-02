@@ -1,3 +1,11 @@
 export const ADD_FLASH_MESSAGE = 'ADD_FLASH_MESSAGE';
 export const DELETE_FLASH_MESSAGE = 'DELETE_FLASH_MESSAGE';
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const BASE_URL = 'http://139.59.60.15/';
+export const SHOW_ERROR = 'SHOW_ERROR';
+export const GET_COMMAND = 'GET_COMMAND';
+export const GET_COMMAND_ERR = 'GET_COMMAND_ERR';
+export const POST_COMMAND = 'POST_COMMAND';
+export const POST_COMMAND_ERR = 'POST_COMMAND_ERR';
+export const PATCH_COMMAND = 'PATCH_COMMAND';
+export const PATCH_COMMAND_ERR = 'PATCH_COMMAND_ERR';

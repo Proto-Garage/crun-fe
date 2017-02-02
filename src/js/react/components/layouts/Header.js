@@ -10,6 +10,8 @@ class Header extends React.Component {
     this.state = {
       collapsed: true
     }
+
+    this.logout = this.logout.bind(this);
   }
 
   toggleCollapse() {
@@ -36,9 +38,18 @@ class Header extends React.Component {
     const navClass = collapsed ? "collapse" : "";
 
     const userLinks = (
-      <ul className="nav navbar-nav navbar-right">
-        <li><a href="#" onClick={this.logout.bind(this)}>Logout</a></li>
-      </ul>
+      <div>
+        <ul className="nav navbar-nav">
+          <li className={userActive}><Link to="users">Users</Link></li>
+          <li className={roleActive}><Link to="roles">Roles</Link></li>
+          <li className={commandActive}><Link to="commands">Commands</Link></li>
+          <li className={groupActive}><Link to="groups">Groups</Link></li>
+          <li className={executionActive}><Link to="execution">Execution</Link></li>
+        </ul>
+        <ul className="nav navbar-nav navbar-right">
+          <li><a href="#" onClick={this.logout.bind(this)}>Logout</a></li>
+        </ul>
+      </div>
     );
 
     const guestLinks = (

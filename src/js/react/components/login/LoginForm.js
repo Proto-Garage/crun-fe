@@ -11,6 +11,7 @@ class LoginForm extends React.Component {
       username: '',
       password: '',
       errors: {},
+      inputError: {},
       isLoading: false
     };
 
@@ -19,10 +20,10 @@ class LoginForm extends React.Component {
   }
 
   isValid() {
-    const { errors, isValid } = validateInput(this.state);
+    const { inputError, isValid } = validateInput(this.state);
 
     if (!isValid) {
-      this.setState({ errors });
+      this.setState({ inputError });
     }
 
     return isValid;
@@ -33,8 +34,7 @@ class LoginForm extends React.Component {
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: true });
       this.props.login(this.state).then(
-        (res) => this.context.router.push('/'),
-        (err) => this.setState({ errors: err.response.data.errors, isLoading: false })
+        (res) => this.context.router.push('/')
       );
     }
   }
@@ -44,47 +44,51 @@ class LoginForm extends React.Component {
   }
 
   render() {
-    const { errors, username, password, isLoading } = this.state;
+    const { inputError, username, password, isLoading } = this.state;
+    const { errors } = this.props;
 
     return (
       <form onSubmit={this.onSubmit}>
         <h1>Login</h1>
 
-        { errors.form && <div className="alert alert-danger">{errors.form}</div> }
+        { errors.message && <div className="alert alert-danger">{errors.message}</div> }
 
         <TextFieldGroup
           field="username"
           label="Username"
-          customClass="username"
           value={username}
-          error={errors.username}
+          error={inputError.username}
           onChange={this.onChange}
         />
 
         <TextFieldGroup
           field="password"
           label="Password"
-          customClass="password"
           value={password}
-          error={errors.password}
+          error={inputError.password}
           onChange={this.onChange}
           type="password"
         />
 
-        <div className="form-group">
-          <button className="btn btn-primary login-button" disabled={isLoading}>Login</button>
-        </div>
+        <div className="form-group"><button className="btn btn-primary btn-lg" disabled={isLoading}>Login</button></div>
       </form>
     );
   }
 }
 
 LoginForm.propTypes = {
-  login: React.PropTypes.func.isRequired
+  login: React.PropTypes.func.isRequired,
+  errors: React.PropTypes.object.isRequired
 }
 
 LoginForm.contextTypes = {
   router: React.PropTypes.object.isRequired
 }
 
-export default connect(null, { login })(LoginForm);
+function mapStateToProps(state){
+  return {
+    errors: state.auth.errors
+  }
+}
+
+export default connect(mapStateToProps, { login })(LoginForm);
