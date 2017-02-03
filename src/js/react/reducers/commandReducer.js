@@ -1,6 +1,7 @@
 import {
   ACCESS_TOKEN, GET_COMMAND, GET_COMMAND_ERR,
-  POST_COMMAND, POST_COMMAND_ERR
+  POST_COMMAND, POST_COMMAND_ERR, GET_COMMAND_BY_ID,
+  GET_COMMAND_BY_ID_ERR, DELETE_COMMAND, DELETE_COMMAND_ERR
 } from '../actions/types';
 
 const initialState = {
@@ -21,6 +22,17 @@ export default (state = initialState, action = {}) => {
       return {
         errors: action.errors,
         commands: {}
+      };
+    case GET_COMMAND_BY_ID:
+      return {
+        command: action.command,
+        links: action.links,
+        errors: {}
+      };
+    case GET_COMMAND_BY_ID_ERR:
+      return {
+        command: {},
+        errors: action.error
       };
     case POST_COMMAND:
       return {

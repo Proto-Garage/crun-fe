@@ -16,7 +16,7 @@ import requireAuth from "./utils/requireAuth";
 
 export default (
   <Route path="/" component={Layout}>
-    <IndexRoute component={requireAuth(dashboardPage)} />
+    <IndexRoute component={dashboardPage} />
     <Route path="login" component={loginPage} />
     <Route path="users" component={requireAuth(userPage)} />
     <Route path="roles" component={requireAuth(rolePage)} />

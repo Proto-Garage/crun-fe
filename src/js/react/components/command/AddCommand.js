@@ -67,7 +67,7 @@ class AddCommand extends React.Component {
 
 }
 
-AddCommand.PropTypes = {
+AddCommand.propTypes = {
   createCommand: React.PropTypes.func,
   errors: React.PropTypes.object.isRequired,
   id: React.PropTypes.string

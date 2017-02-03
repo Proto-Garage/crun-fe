@@ -15,6 +15,7 @@ export function setCurrentUser(user) {
 }
 
 export function showError(error){
+
   return {
     type: SHOW_ERROR,
     errors: error
@@ -31,6 +32,7 @@ export function logout() {
 }
 
 export function login(data) {
+
   return dispatch => {
     return instance.post('/authenticate', data).then(response => {
 
@@ -42,7 +44,7 @@ export function login(data) {
 
       setAuthorizationToken(token);
       dispatch(setCurrentUser(jwtDecode(token)));
-      
+
     })
     .catch(function(error) {
       dispatch(showError(error.response.data));

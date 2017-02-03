@@ -1,9 +1,23 @@
 import TextFieldGroup from '../common/TextFieldGroup';
-import { patchCommand } from '../../actions/commandActions';
+import { patchCommand, getCommandById } from '../../actions/commandActions';
 import { connect } from 'react-redux';
 
 class EditCommand extends React.Component {
+  constructor (props) {
+    super(props);
+    this.state = {
+      commandId: '',
+      name: '',
+      command: '',
+      cwd: '',
+      isLoading: false,
+      errors: {}
+    }
 
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+
+  }
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
@@ -14,18 +28,22 @@ class EditCommand extends React.Component {
 
   }
 
+  componentWillMount(){
+    this.props.getCommandById(this.props.params.commandId);
+  }
+
   render(){
 
-
-    const { name, command, cwd, isLoading, errors } = this.state;
+    const { name, command, cwd, isLoading, errors } = this.state
 
     return(
       <div className="col-md-6 col-md-offset-3">
-        <h1>Create Command</h1>
+        <h1>Update Command</h1>
         <form onSubmit={this.onSubmit}>
           <TextFieldGroup
             field="name"
             label="Name"
+            defaultValue={this.props.commands.name}
             value={name}
             error={errors.name}
             onChange={this.onChange}
@@ -53,10 +71,9 @@ class EditCommand extends React.Component {
 
 }
 
-EditCommand.PropTypes = {
+EditCommand.propTypes = {
   patchCommand: React.PropTypes.func,
-  errors: React.PropTypes.object.isRequired,
-  id: React.PropTypes.string
+  getCommandById: React.PropTypes.func.isRequired
 }
 
 EditCommand.contextTypes = {
@@ -66,8 +83,8 @@ EditCommand.contextTypes = {
 function mapStateToProps(state){
   return {
     errors: state.commandReducer.errors,
-    id: state.commandReducer.id
+    command: state.commandReducer.command
   }
 }
 
-export default connect(mapStateToProps, { patchCommand })(EditCommand);
+export default connect(mapStateToProps, { patchCommand, getCommandById })(EditCommand);

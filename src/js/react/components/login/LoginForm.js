@@ -2,7 +2,9 @@ import React from 'react';
 import TextFieldGroup from '../common/TextFieldGroup';
 import validateInput from '../../server/validations/login';
 import { connect } from 'react-redux';
-import { login } from '../../actions/authActions';
+import { login, isLoginned } from '../../actions/authActions';
+import _ from 'lodash';
+
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -33,9 +35,13 @@ class LoginForm extends React.Component {
     e.preventDefault();
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: true });
-      this.props.login(this.state).then(
-        (res) => this.context.router.push('/')
-      );
+      this.props.login(this.state).then(()=>{
+        if(this.props.errors.message){
+          this.setState({errors: this.props.errors, isLoading: false});
+        }else{
+          this.context.router.push('/')
+        }
+      });
     }
   }
 
@@ -44,8 +50,8 @@ class LoginForm extends React.Component {
   }
 
   render() {
-    const { inputError, username, password, isLoading } = this.state;
-    const { errors } = this.props;
+
+    const { inputError, username, password, errors, isLoading } = this.state;
 
     return (
       <form onSubmit={this.onSubmit}>

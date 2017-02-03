@@ -47,7 +47,7 @@ class Header extends React.Component {
           <li className={executionActive}><Link to="execution">Execution</Link></li>
         </ul>
         <ul className="nav navbar-nav navbar-right">
-          <li><a href="#" onClick={this.logout.bind(this)}>Logout</a></li>
+          <li><Link onClick={this.logout.bind(this)}>Logout</Link></li>
         </ul>
       </div>
     );
