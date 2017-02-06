@@ -1,25 +1,25 @@
 import {
-   GET_USER, GET_USER_ERR,
+  BASE_URL, GET_ROLE, GET_ROLE_ERR
 } from '../actions/types'
 
 const initialState = {
-  users: {},
+  roles: {},
   links: {},
   errors: {}
 }
 
 export default (state = initialState, action = {}) => {
   switch (action.type) {
-    case GET_USER:
+    case GET_ROLE:
       return {
-        users: action.users,
+        roles: action.roles,
         links: action.links,
         errors: {}
       }
       break;
-    case GET_USER_ERR:
+    case GET_ROLE_ERR:
       return {
-        users: {},
+        roles: {},
         links: {},
         errors: action.errors
       }

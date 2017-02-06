@@ -16,6 +16,7 @@ class User extends React.Component {
 
   componentWillMount(){
     this.props.getUsers().then(() => {
+      console.log('this user props: ', this.props)
       if(this.props.errors.code === 'UNAUTHORIZED'){
         this.props.refreshToken();
         this.props.getUsers();
@@ -29,7 +30,7 @@ class User extends React.Component {
 
     return (
       <div>
-        <h1>User</h1>
+        <h1>Users</h1>
         <table className="table table-responsive">
           <thead>
             <tr>
