@@ -13,3 +13,7 @@ export const PATCH_COMMAND = 'PATCH_COMMAND';
 export const PATCH_COMMAND_ERR = 'PATCH_COMMAND_ERR';
 export const DELETE_COMMAND = 'DELETE_COMMAND';
 export const DELETE_COMMAND_ERR = 'DELETE_COMMAND_ERR';
+export const GET_USER = 'GET_USER';
+export const GET_USER_ERR = 'GET_USER_ERR';
+export const GET_ROLE = 'GET_ROLE';
+export const GET_ROLE_ERR = 'GET_ROLE_ERR';

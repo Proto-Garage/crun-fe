@@ -44,7 +44,7 @@ class AddCommand extends React.Component {
         if(this.props.errors.message){
           this.setState({errors: this.props.errors, isLoading: false});
         }else{
-          this.context.router.push('/command')
+          this.context.router.push('/commands')
         }
       }
     );

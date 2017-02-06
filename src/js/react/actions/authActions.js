@@ -51,3 +51,23 @@ export function login(data) {
     });
   }
 }
+
+export function refreshToken() {
+  return dispatch => {
+
+    localStorage.removeItem('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
+
+    const data = {
+      refreshToken: refreshToken
+    }
+
+    return instance.post('/refreshToken', data).then(response => {
+
+      const token = response.data.accessToken;
+      localStorage.setItem('accessToken', token);
+      setAuthorizationToken(token);
+      dispatch(setCurrentUser(jwtDecode(token)));
+    })
+  }
+}

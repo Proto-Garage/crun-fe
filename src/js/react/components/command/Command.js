@@ -1,7 +1,8 @@
-import { getCommand, deleteCommand } from '../../actions/commandActions';
-import { connect } from 'react-redux';
-import _ from 'lodash';
-import { Link } from "react-router";
+import { getCommand, deleteCommand } from '../../actions/commandActions'
+import { refreshToken } from '../../actions/authActions'
+import { connect } from 'react-redux'
+import _ from 'lodash'
+import { Link } from "react-router"
 
 class Command extends React.Component {
   constructor(props) {
@@ -13,12 +14,18 @@ class Command extends React.Component {
   }
 
   componentWillMount(){
-    this.props.getCommand();
+    this.props.getCommand().then(()=>{
+      console.log('get command response: ', this.props);
+      if(this.props.errors.code === 'UNAUTHORIZED'){
+        this.props.refreshToken();
+        this.props.getCommand();
+      }
+    });
   }
 
   deleteCommandEvent(data){
     this.props.deleteCommand(data).then(() => {
-      this.props.getCommand();
+      this.props.getCommand()
     });
   }
 
@@ -68,8 +75,8 @@ class Command extends React.Component {
 Command.propTypes = {
   getCommand: React.PropTypes.func.isRequired,
   errors: React.PropTypes.object.isRequired,
-  deleteCommand: React.PropTypes.func.isRequired
-
+  deleteCommand: React.PropTypes.func.isRequired,
+  refreshToken: React.PropTypes.func
 }
 
 Command.contextTypes = {
@@ -86,4 +93,4 @@ function mapStateToProps(state) {
 
 }
 
-export default connect(mapStateToProps, { getCommand, deleteCommand })(Command);
+export default connect(mapStateToProps, { getCommand, deleteCommand, refreshToken })(Command);
