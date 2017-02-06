@@ -25,3 +25,5 @@ export const PATCH_ROLE = 'PATCH_ROLE';
 export const PATCH_ROLE_ERR = 'PATCH_ROLE_ERR';
 export const DELETE_ROLE = 'DELETE_ROLE';
 export const DELETE_ROLE_ERR = 'DELETE_ROLE';
+export const GET_GROUP = 'GET_GROUP';
+export const GET_GROUP_ERR = 'GET_GROUP_ERR';
