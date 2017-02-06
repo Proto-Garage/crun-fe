@@ -1,6 +1,7 @@
 import TextFieldGroup from '../common/TextFieldGroup';
 import { createCommand } from '../../actions/commandActions';
 import { connect } from 'react-redux';
+import { refreshToken } from '../../actions/authActions'
 
 class AddCommand extends React.Component {
   constructor (props) {
@@ -40,9 +41,22 @@ class AddCommand extends React.Component {
     this.setState({ isLoading: true });
     console.log('submit data: ', this.state);
 
-    this.props.createCommand(this.state).then(() => {
-        if(this.props.errors.message){
-          this.setState({errors: this.props.errors, isLoading: false});
+    let data = {
+      name: this.state.name,
+      command: this.state.command,
+      cwd: this.state.cwd
+    }
+
+    this.props.createCommand(data).then(() => {
+        if(this.props.errors.code === 'UNAUTHORIZED'){
+          this.props.refreshToken().then(() => {
+            this.props.createCommand(data)
+          })
+        }else if(this.props.errors.code === 'INVALID_REQUEST'){
+          this.setState({
+            errors: this.props.errors,
+            isLoading: false
+          })
         }else{
           this.context.router.push('/commands')
         }
@@ -74,6 +88,9 @@ class AddCommand extends React.Component {
     return(
       <div className="col-md-6 col-md-offset-3">
         <form onSubmit={this.onSubmit}>
+
+          { errors.message && <div className="alert alert-danger">{errors.message}</div> }
+
           <TextFieldGroup
             field="name"
             label="Name"
@@ -140,8 +157,8 @@ class AddCommand extends React.Component {
 
           <div className="form-group">
             <label className="control-label">Enable</label>
-            <input type="radio" name="enable" id="" value="true" checked />Yes
-            <input type="radio" name="enable" id="" value="false" checked />No
+            <input type="radio" name="enable" id="" value="true" />Yes
+            <input type="radio" name="enable" id="" value="false" />No
           </div>
 
           <div className="form-group"><button className="btn btn-primary" disabled={isLoading}>Create Command</button></div>
