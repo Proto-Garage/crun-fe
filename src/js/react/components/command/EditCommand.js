@@ -11,7 +11,11 @@ class EditCommand extends React.Component {
       command: '',
       cwd: '',
       isLoading: false,
-      errors: {}
+      errors: {},
+      env: [{
+        key: '',
+        value: ''
+      }]
     }
 
     this.onChange = this.onChange.bind(this);
@@ -25,16 +29,48 @@ class EditCommand extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
+    this.props.patchCommand(this.state).then(() => {
+      if(this.props.errors.message){
 
+      }else{
+        this.context.router.push('/commands')
+      }
+    });
+  }
+
+  addEnv(e) {
+    e.preventDefault();
+    this.setState({
+      env: this.state.env.concat({
+        key: '',
+        value: ''
+      })
+    })
+  }
+
+  removeEnv(e) {
+    e.preventDefault();
+    this.setState({
+      env: this.state.env.splice(index, 1)
+    })
   }
 
   componentWillMount(){
-    this.props.getCommandById(this.props.params.commandId);
+    this.props.getCommandById(this.props.params.commandId).then(() => {
+      this.setState({
+        commandId: this.props.params.commandId,
+        name: this.props.command.name,
+        command: this.props.command.command,
+        cwd: this.props.command.cwd,
+        env: this.props.command.env,
+        timeout: this.props.command.timeout
+      })
+    })
   }
 
   render(){
 
-    const { name, command, cwd, isLoading, errors } = this.state
+    const { name, command, cwd, isLoading, errors, env, timeout } = this.state
 
     return(
       <div className="col-md-6 col-md-offset-3">
@@ -43,7 +79,6 @@ class EditCommand extends React.Component {
           <TextFieldGroup
             field="name"
             label="Name"
-            defaultValue={this.props.commands.name}
             value={name}
             error={errors.name}
             onChange={this.onChange}
@@ -63,7 +98,57 @@ class EditCommand extends React.Component {
             value={cwd}
             onChange={this.onChange}
           />
-          <div className="form-group"><button className="btn btn-primary" disabled={isLoading}>Create Command</button></div>
+
+          <div className="form-group">
+            <label className="control-label">ENV</label>
+
+            {
+              this.state.env.map((env, index) => {
+
+                this.onChange = this.onChange.bind(this);
+
+                return (
+                  <div className="form-group">
+                    <div className="row">
+                      <div className="col-md-4">
+                        <input type="text" onChange={this.onChange} className="form-control" value="" name="key" />
+                      </div>
+                      <div className="col-md-8">
+                        <input type="text" onChange={this.onChange} className="form-control" value="" name="value" />
+                      </div>
+                    </div>
+                  </div>
+                )
+              })
+            }
+
+          </div>
+
+          <div className="form-group row">
+            <div className="col-sm-12">
+              <button onClick={this.addEnv.bind(this)} className="btn pull-right btn-success">Add ENV</button>
+              <button onClick={this.removeEnv.bind(this)} className="btn pull-right btn-danger">Remove</button>
+            </div>
+          </div>
+
+          <TextFieldGroup
+            field="timeout"
+            label="Timeout"
+            value={timeout}
+            onChange={this.onChange}
+          />
+
+          <div className="form-group">
+            <label className="control-label">Enable</label>
+            <input type="radio" name="enable" id="" value="true" />Yes
+            <input type="radio" name="enable" id="" value="false" />No
+          </div>
+
+          <div className="form-group">
+            <button className="btn btn-warning" disabled={isLoading}>
+              <i className="fa fa-save"></i> Update Command
+            </button>
+          </div>
         </form>
       </div>
     )
@@ -72,7 +157,7 @@ class EditCommand extends React.Component {
 }
 
 EditCommand.propTypes = {
-  patchCommand: React.PropTypes.func,
+  patchCommand: React.PropTypes.func.isRequired,
   getCommandById: React.PropTypes.func.isRequired
 }
 

@@ -10,7 +10,14 @@ class AddCommand extends React.Component {
       command: '',
       cwd: '',
       isLoading: false,
-      errors: {}
+      errors: {},
+      env: [{
+        key: '',
+        value: ''
+      }],
+      changedValues: [{
+        env: {}
+      }]
     }
 
     this.onChange = this.onChange.bind(this);
@@ -18,24 +25,54 @@ class AddCommand extends React.Component {
 
   }
 
+
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
+    this.setState({
+      env: [{
+        [e.target.name]: e.target.value
+      }]
+    })
   }
 
   onSubmit(e) {
     e.preventDefault();
-    this.props.createCommand(this.state).then(
-      (res) => this.context.router.push('/commands')
+    this.setState({ isLoading: true });
+    console.log('submit data: ', this.state);
+
+    this.props.createCommand(this.state).then(() => {
+        if(this.props.errors.message){
+          this.setState({errors: this.props.errors, isLoading: false});
+        }else{
+          this.context.router.push('/command')
+        }
+      }
     );
+  }
+
+  addEnv(e) {
+    e.preventDefault();
+    this.setState({
+      env: this.state.env.concat({
+        key: '',
+        value: ''
+      })
+    })
+  }
+
+  removeEnv(e) {
+    e.preventDefault();
+    this.setState({
+      env: this.state.env.splice(index, 1)
+    })
   }
 
   render(){
 
-    const { name, command, cwd, isLoading, errors } = this.state;
+    const { name, command, cwd, isLoading, errors, env, timeout  } = this.state;
 
     return(
       <div className="col-md-6 col-md-offset-3">
-        <h1>Create Command</h1>
         <form onSubmit={this.onSubmit}>
           <TextFieldGroup
             field="name"
@@ -59,6 +96,54 @@ class AddCommand extends React.Component {
             value={cwd}
             onChange={this.onChange}
           />
+
+          <div className="form-group">
+            <label className="control-label">ENV</label>
+
+            {
+              this.state.env.map((env, index) => {
+
+                this.onChange = this.onChange.bind(this);
+
+                console.log('this.state', this.state.env);
+
+                return (
+                  <div className="form-group">
+                    <div className="row">
+                      <div className="col-md-4">
+                        <input type="text" onChange={this.onChange} value={env.key} className="form-control" name={"value"+index} />
+                      </div>
+                      <div className="col-md-8">
+                        <input type="text" onChange={this.onChange} value={env.value} className="form-control" name={"value"+index} />
+                      </div>
+                    </div>
+                  </div>
+                )
+              })
+            }
+
+          </div>
+
+          <div className="form-group row">
+            <div className="col-sm-12">
+              <button onClick={this.addEnv.bind(this)} className="btn pull-right btn-success">Add ENV</button>
+              <button onClick={this.removeEnv.bind(this)} className="btn pull-right btn-danger">Remove</button>
+            </div>
+          </div>
+
+          <TextFieldGroup
+            field="timeout"
+            label="Timeout"
+            value={timeout}
+            onChange={this.onChange}
+          />
+
+          <div className="form-group">
+            <label className="control-label">Enable</label>
+            <input type="radio" name="enable" id="" value="true" checked />Yes
+            <input type="radio" name="enable" id="" value="false" checked />No
+          </div>
+
           <div className="form-group"><button className="btn btn-primary" disabled={isLoading}>Create Command</button></div>
         </form>
       </div>

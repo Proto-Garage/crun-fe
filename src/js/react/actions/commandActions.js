@@ -98,6 +98,7 @@ export function getCommand() {
 }
 
 export function createCommand(data) {
+  console.log('data from create: ', data);
   return dispatch => {
     return instance.post('/commands', data).then(response => {
       console.log('create command: ', response.data);
