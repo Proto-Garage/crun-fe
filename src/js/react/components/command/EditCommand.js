@@ -29,7 +29,7 @@ class EditCommand extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
-
+    this.setState({ isLoading: true });
     let data = {
       name: this.state.name,
       command: this.state.command,
@@ -39,7 +39,10 @@ class EditCommand extends React.Component {
 
     this.props.patchCommand(data).then(() => {
       if(this.props.errors.message){
-
+        this.setState({
+          errors: this.props.errors,
+          isLoading: false
+        })
       }else{
         this.context.router.push('/commands')
       }
