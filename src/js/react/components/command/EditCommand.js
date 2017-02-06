@@ -29,7 +29,15 @@ class EditCommand extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
-    this.props.patchCommand(this.state).then(() => {
+
+    let data = {
+      name: this.state.name,
+      command: this.state.command,
+      cwd: this.state.cwd,
+      commandId: this.props.params.commandId
+    }
+
+    this.props.patchCommand(data).then(() => {
       if(this.props.errors.message){
 
       }else{

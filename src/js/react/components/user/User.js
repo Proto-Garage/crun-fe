@@ -20,7 +20,7 @@ class User extends React.Component {
       console.log('this user props: ', this.props)
       if(this.props.errors.code === 'UNAUTHORIZED'){
         this.props.refreshToken().then(() => {
-          this.props.getCommand()
+          this.props.getUsers()
         })
       }
     })
