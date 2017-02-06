@@ -4,6 +4,7 @@ import { Route, IndexRoute } from "react-router";
 import Layout from "./components/Layout";
 import userPage from "./components/user/User";
 import rolePage from "./components/role/Role";
+import addUserPage from "./components/user/AddUser";
 import commandPage from "./components/command/Command";
 import addCommandPage from "./components/command/AddCommand";
 import editCommandPage from './components/command/EditCommand';
@@ -21,6 +22,7 @@ export default (
     <IndexRoute component={dashboardPage} />
     <Route path="login" component={loginPage} />
     <Route path="users" component={requireAuth(userPage)} />
+    <Route path="addUser" component={requireAuth(addUserPage)} />
     <Route path="roles" component={requireAuth(rolePage)} />
     <Route path="commands" component={requireAuth(commandPage)} />
     <Route path="addCommand" component={requireAuth(addCommandPage)} />

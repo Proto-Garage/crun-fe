@@ -14,7 +14,8 @@ let tasks = [
   'less',
   'font-awesome',
   'font-awesome-fonts',
-  'test'
+  'test',
+  'react-select-css'
 ];
 
 tasks.forEach(function(name) {
@@ -52,5 +53,6 @@ gulp.task('default',[
   'minify-css',
   'font-awesome',
   'font-awesome-fonts',
-  'test'
+  'test',
+  'react-select-css'
 ]);

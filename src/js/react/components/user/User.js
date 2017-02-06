@@ -6,6 +6,7 @@ import { Link } from "react-router"
 
 
 
+
 class User extends React.Component {
   constructor(props) {
     super(props);
@@ -31,6 +32,7 @@ class User extends React.Component {
 
     return (
       <div>
+        <Link className="add-btn btn btn-success" to="/addUser" ><i className="fa fa-plus"></i>Add User</Link>
         <h1>Users</h1>
         <table className="table table-responsive table-bordered">
           <thead>
@@ -48,8 +50,12 @@ class User extends React.Component {
                  <td>{users.username}</td>
                  <td>{users.createdAt}</td>
                  <td>
-                  <ul>
-                    <li></li>
+                 <ul>
+                   {users.roles ? (users.roles.map((roles, index) => {
+                     return (
+                       <li key={index}>{roles}</li>
+                     )
+                   })) : (<li>No Roles assign</li>)}
                   </ul>
                  </td>
                  <td>

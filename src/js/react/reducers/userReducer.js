@@ -1,5 +1,5 @@
 import {
-   GET_USER, GET_USER_ERR,
+   GET_USER, GET_USER_ERR, POST_USER, POST_USER_ERR
 } from '../actions/types'
 
 const initialState = {
@@ -21,6 +21,17 @@ export default (state = initialState, action = {}) => {
       return {
         users: {},
         links: {},
+        errors: action.errors
+      }
+      break;
+    case POST_USER:
+      return {
+        id: action.id,
+        errors: {}
+      }
+      break;
+    case POST_USER_ERR:
+      return {
         errors: action.errors
       }
       break;
