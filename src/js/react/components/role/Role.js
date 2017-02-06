@@ -26,10 +26,12 @@ class Role extends React.Component {
 
   render(){
 
+    const roleArr = _.valuesIn(this.props.roles)
+    const roleLength = this.props.roles.length > 0;
     return (
       <div>
         <h1>Roles</h1>
-        <table className="table table-responsive">
+        <table className="table table-responsive table-bordered">
           <thead>
             <tr>
               <td>Name</td>
@@ -38,7 +40,24 @@ class Role extends React.Component {
             </tr>
           </thead>
           <tbody>
-
+            { roleLength ? (
+              roleArr.map((roles, i) => {
+                return (
+                  <tr key={i}>
+                     <td>{roles.name}</td>
+                     <td>{roles.createdAt}</td>
+                     <td>
+                      <Link className="btn btn-sm btn-warning"  >
+                        <i className="fa fa-pencil"></i>
+                      </Link>
+                      <button className="btn btn-sm btn-danger">
+                              <i className="fa fa-trash-o"></i>
+                      </button>
+                     </td>
+                 </tr>
+               );
+             })) : (<tr>No Roles Found</tr>)
+            }
           </tbody>
         </table>
       </div>

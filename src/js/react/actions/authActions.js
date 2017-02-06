@@ -63,11 +63,10 @@ export function refreshToken() {
     }
 
     return instance.post('/refreshToken', data).then(response => {
-
+      console.log('refresh token success: ', response.data);
       const token = response.data.accessToken;
       localStorage.setItem('accessToken', token);
       setAuthorizationToken(token);
-      dispatch(setCurrentUser(jwtDecode(token)));
     })
   }
 }

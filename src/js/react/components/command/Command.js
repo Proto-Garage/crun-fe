@@ -17,8 +17,9 @@ class Command extends React.Component {
     this.props.getCommand().then(()=>{
       console.log('get command response: ', this.props);
       if(this.props.errors.code === 'UNAUTHORIZED'){
-        this.props.refreshToken();
-        this.props.getCommand();
+        this.props.refreshToken().then(() => {
+          this.props.getCommand()
+        })
       }
     });
   }

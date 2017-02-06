@@ -27,11 +27,12 @@ class User extends React.Component {
   render(){
 
     const userArr = _.valuesIn(this.props.users)
+    const userListLength = this.props.users.length > 0;
 
     return (
       <div>
         <h1>Users</h1>
-        <table className="table table-responsive">
+        <table className="table table-responsive table-bordered">
           <thead>
             <tr>
               <td>Username</td>
@@ -41,29 +42,27 @@ class User extends React.Component {
             </tr>
           </thead>
           <tbody>
-          {
-            userArr.map((users, i) => {
-              return (
-                <tr key={i}>
-                   <td>{users.username}</td>
-                   <td>{users.createdAt}</td>
-                   <td>
-                    <ul>
-                      <li></li>
-                    </ul>
-                   </td>
-                   <td>
-                    <Link className="btn btn-sm btn-warning" >
-                      <i className="fa fa-pencil"></i>
-                    </Link>
-                    <button className="btn btn-sm btn-danger">
-                            <i className="fa fa-trash-o"></i>
-                    </button>
-                   </td>
-               </tr>
-              )
-            })
-          }
+          {userListLength ? (userArr.map((users, i) => {
+            return (
+              <tr key={i}>
+                 <td>{users.username}</td>
+                 <td>{users.createdAt}</td>
+                 <td>
+                  <ul>
+                    <li></li>
+                  </ul>
+                 </td>
+                 <td>
+                  <Link className="btn btn-sm btn-warning" >
+                    <i className="fa fa-pencil"></i>
+                  </Link>
+                  <button className="btn btn-sm btn-danger">
+                          <i className="fa fa-trash-o"></i>
+                  </button>
+                 </td>
+             </tr>
+            )
+          })): (<tr>No Users Found</tr>)}
           </tbody>
         </table>
       </div>
