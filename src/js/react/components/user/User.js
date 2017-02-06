@@ -18,8 +18,9 @@ class User extends React.Component {
     this.props.getUsers().then(() => {
       console.log('this user props: ', this.props)
       if(this.props.errors.code === 'UNAUTHORIZED'){
-        this.props.refreshToken();
-        this.props.getUsers();
+        this.props.refreshToken().then(() => {
+          this.props.getCommand()
+        })
       }
     })
   }
@@ -27,7 +28,6 @@ class User extends React.Component {
   render(){
 
     const userArr = _.valuesIn(this.props.users)
-    const userListLength = this.props.users.length > 0;
 
     return (
       <div>
@@ -42,7 +42,7 @@ class User extends React.Component {
             </tr>
           </thead>
           <tbody>
-          {userListLength ? (userArr.map((users, i) => {
+          {this.props.users ? (userArr.map((users, i) => {
             return (
               <tr key={i}>
                  <td>{users.username}</td>

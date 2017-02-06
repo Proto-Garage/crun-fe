@@ -1,4 +1,4 @@
-import { getRoles } from '../../actions/roleActions'
+import { getRoles, deleteRole } from '../../actions/roleActions'
 import { refreshToken } from '../../actions/authActions'
 import { connect } from 'react-redux'
 import _ from 'lodash'
@@ -18,18 +18,27 @@ class Role extends React.Component {
     this.props.getRoles().then(() => {
       console.log('this role props: ', this.props)
       if(this.props.errors.code === 'UNAUTHORIZED'){
-        this.props.refreshToken();
-        this.props.getRoles();
+        this.props.refreshToken().then(() => {
+          this.props.getRoles()
+        })
       }
     })
   }
 
+  deleteRoleEvent(data){
+    this.props.deleteRole(data).then(() => {
+      this.props.getRoles()
+    });
+  }
+
+
   render(){
 
     const roleArr = _.valuesIn(this.props.roles)
-    const roleLength = this.props.roles.length > 0;
+
     return (
       <div>
+        <Link className="add-btn btn btn-success" to="/addRole" ><i className="fa fa-plus"></i>Add Role</Link>
         <h1>Roles</h1>
         <table className="table table-responsive table-bordered">
           <thead>
@@ -40,17 +49,14 @@ class Role extends React.Component {
             </tr>
           </thead>
           <tbody>
-            { roleLength ? (
+            { this.props.roles ? (
               roleArr.map((roles, i) => {
                 return (
                   <tr key={i}>
                      <td>{roles.name}</td>
                      <td>{roles.createdAt}</td>
                      <td>
-                      <Link className="btn btn-sm btn-warning"  >
-                        <i className="fa fa-pencil"></i>
-                      </Link>
-                      <button className="btn btn-sm btn-danger">
+                      <button className="btn btn-sm btn-danger" onClick={() => this.deleteRoleEvent(roles._id)}>
                               <i className="fa fa-trash-o"></i>
                       </button>
                      </td>
@@ -67,6 +73,7 @@ class Role extends React.Component {
 
 Role.propTypes = {
   getRoles: React.PropTypes.func.isRequired,
+  deleteRole: React.PropTypes.func.isRequired,
   errors: React.PropTypes.object.isRequired,
   refreshToken: React.PropTypes.func
 }
@@ -83,4 +90,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { getRoles, refreshToken })(Role)
+export default connect(mapStateToProps, { getRoles, refreshToken, deleteRole })(Role)

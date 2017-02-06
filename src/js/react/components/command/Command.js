@@ -33,7 +33,7 @@ class Command extends React.Component {
 
   render(){
 
-    const commandArr = _.valuesIn(this.props.commands);
+    const commandArr = _.valuesIn(this.props.commands)
 
     return (
       <div className="command">
@@ -47,25 +47,22 @@ class Command extends React.Component {
             </tr>
           </thead>
           <tbody>
-          {
-            commandArr.map((commands, i) => {
-              return (
-                <tr key={i}>
-                   <td>{commands.name}</td>
-                   <td>{commands.command}</td>
-                   <td>
-                    <Link className="btn btn-sm btn-warning" to={`/editCommand/${commands._id}`} >
-                      <i className="fa fa-pencil"></i>
-                    </Link>
-                    <button onClick={() => this.deleteCommandEvent(commands._id)} className="btn btn-sm btn-danger">
-                            <i className="fa fa-trash-o"></i>
-                    </button>
-                   </td>
-               </tr>
-              )
-
-             })
-          }
+          {this.props.commands ? (commandArr.map((commands, i) => {
+            return (
+              <tr key={i}>
+                 <td>{commands.name}</td>
+                 <td>{commands.command}</td>
+                 <td>
+                  <Link className="btn btn-sm btn-warning" to={`/editCommand/${commands._id}`} >
+                    <i className="fa fa-pencil"></i>
+                  </Link>
+                  <button onClick={() => this.deleteCommandEvent(commands._id)} className="btn btn-sm btn-danger">
+                          <i className="fa fa-trash-o"></i>
+                  </button>
+                 </td>
+             </tr>
+            )
+          })):(<tr>No Commands Found</tr>)}
           </tbody>
         </table>
       </div>

@@ -11,6 +11,8 @@ import groupPage from "./components/group/Group";
 import executionPage from "./components/execution/Execution";
 import loginPage from "./components/login/Login";
 import dashboardPage from "./components/dashboard/Dashboard";
+import addRolePage from "./components/role/AddRole";
+import editRolePage from "./components/role/EditRole";
 
 import requireAuth from "./utils/requireAuth";
 
@@ -25,5 +27,7 @@ export default (
     <Route path="editCommand/:commandId" component={requireAuth(editCommandPage)} />
     <Route path="groups" component={requireAuth(groupPage)} />
     <Route path="execution" component={requireAuth(executionPage)} />
+    <Route path="addRole" component={requireAuth(addRolePage)} />
+    <Route path="editRole/:roleId" component={requireAuth(editRolePage)} />
   </Route>
 )

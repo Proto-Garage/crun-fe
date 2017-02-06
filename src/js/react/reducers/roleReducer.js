@@ -1,5 +1,6 @@
 import {
-  BASE_URL, GET_ROLE, GET_ROLE_ERR
+  BASE_URL, GET_ROLE, GET_ROLE_ERR, POST_ROLE, POST_ROLE_ERR,
+  DELETE_ROLE, DELETE_ROLE_ERR
 } from '../actions/types'
 
 const initialState = {
@@ -21,6 +22,29 @@ export default (state = initialState, action = {}) => {
       return {
         roles: {},
         links: {},
+        errors: action.errors
+      }
+      break;
+    case POST_ROLE:
+      return {
+        id: action.id,
+        uri: action.uri,
+        errors: {}
+      }
+      break;
+    case POST_ROLE_ERR:
+      return {
+        errors: action.errors
+      }
+      break;
+    case DELETE_ROLE:
+      return {
+        id: action.id,
+        errors: action.errors
+      }
+      break;
+    case DELETE_ROLE_ERR:
+      return {
         errors: action.errors
       }
       break;
