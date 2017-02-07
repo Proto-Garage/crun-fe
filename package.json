@@ -24,6 +24,7 @@
     "classnames": "^2.2.5",
     "express": "^4.14.1",
     "font-awesome": "^4.7.0",
+    "formsy-react": "^0.19.2",
     "history": "^4.5.1",
     "jwt-decode": "^2.1.0",
     "lodash": "^4.17.4",
