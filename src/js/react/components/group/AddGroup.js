@@ -75,14 +75,9 @@ class AddGroup extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     this.setState({ isLoading: true });
-    console.log('submit data: ', this.state);
 
     const submittedCommands = this.state.commandValues.split(",");
     const submittedGroups = this.state.groupValues.split(",");
-
-    console.log('submittedCommands: ', submittedCommands);
-    console.log('submittedGroups: ', submittedGroups);
-
     const membersArr = [];
     submittedCommands.map((command, i) => {
       membersArr.push({
@@ -98,15 +93,15 @@ class AddGroup extends React.Component {
       })
     });
 
-    console.log('membersArr: ', membersArr);
-
     let data = {
       name: this.state.name,
       queue: this.state.queue,
       executionType: this.state.executionType,
-      enabled: this.state.enabled,
+      enabled: this.state.enable,
       members: membersArr
     }
+
+    console.log('submitted data', data);
 
     this.props.postGroup(data).then(() => {
         if(this.props.errors.code === 'UNAUTHORIZED'){
@@ -128,7 +123,7 @@ class AddGroup extends React.Component {
 
   render(){
 
-    const { name, queue, executionType, enabled, members, isLoading, errors } = this.state;
+    const { name, queue, executionType, enable, members, isLoading, errors } = this.state;
 
     return(
       <div className="col-md-6 col-md-offset-3">
@@ -154,7 +149,7 @@ class AddGroup extends React.Component {
 
           <div className="form-group">
             <label className="control-label">Execution Type</label>
-            <select name="executionType" className="form-control">
+            <select onChange={this.onChange} name="executionType" className="form-control">
               <option value="series">Series</option>
               <option value="parallel">Parallel</option>
             </select>
@@ -162,14 +157,14 @@ class AddGroup extends React.Component {
 
           <div className="form-group">
             <label className="control-label">Enable</label>
-            <input type="radio" name="enable" id="" value="true" />Yes
-            <input type="radio" name="enable" id="" value="false" />No
+            <input onChange={this.onChange} type="radio" name="enable" id="" value="true" />Yes
+            <input onChange={this.onChange} type="radio" name="enable" id="" value="false" />No
           </div>
 
           <div className="form-group">
             <label className="control-label">Members</label>
           </div>
-          
+
           <div className="form-group">
             <label className="control-label">Commands</label>
             <Select multi simpleValue disabled={this.state.disabled} value={this.state.commandValues}
