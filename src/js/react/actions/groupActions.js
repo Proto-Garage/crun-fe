@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {
-  BASE_URL, GET_GROUP, GET_GROUP_ERR, POST_GROUP, POST_GROUP_ERR
+  BASE_URL, GET_GROUP, GET_GROUP_ERR, POST_GROUP, POST_GROUP_ERR,
+  DELETE_GROUP, DELETE_GROUP_ERR
 } from './types';
 
 const instance = axios.create({
@@ -68,6 +69,17 @@ export function postGroup (data) {
       console.log('group post error: ', error.response.data)
       const errData = error.response.data
       dispatch(dispatchPostGroupError(errData))
+    })
+  }
+}
+
+export function deleteGroup(data) {
+  return dispatch => {
+    return instance.delete(`/groups/${data}`).then(response => {
+      console.log('group delete: ', response.data)
+    })
+    .catch(error => {
+      console.log('group delete error: ', error.response.data)
     })
   }
 }

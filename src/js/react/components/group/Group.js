@@ -1,4 +1,4 @@
-import { getGroups } from '../../actions/groupActions'
+import { getGroups, deleteGroup } from '../../actions/groupActions'
 import { refreshToken } from '../../actions/authActions'
 import { connect } from 'react-redux'
 import _ from 'lodash'
@@ -21,6 +21,12 @@ class Group extends React.Component {
           this.props.getGroups()
         })
       }
+    })
+  }
+
+  deleteGroupEvent(data) {
+    this.props.deleteGroup(data).then(() => {
+      this.props.getGroups();
     })
   }
 
@@ -69,7 +75,7 @@ class Group extends React.Component {
                       <Link className="btn btn-sm btn-warning" >
                         <i className="fa fa-pencil"></i>
                       </Link>
-                      <button className="btn btn-sm btn-danger">
+                      <button onClick={() => this.deleteGroupEvent(groups._id)} className="btn btn-sm btn-danger">
                               <i className="fa fa-trash-o"></i>
                       </button>
                       <button className="btn btn-sm btn-success">
@@ -91,7 +97,8 @@ Group.propTypes = {
   getGroups: React.PropTypes.func.isRequired,
   errors: React.PropTypes.object.isRequired,
   refreshToken: React.PropTypes.func,
-  getCommand: React.PropTypes.func.isRequired
+  getCommand: React.PropTypes.func.isRequired,
+  deleteGroup: React.PropTypes.func.isRequired
 }
 
 Group.contextTypes = {
@@ -106,4 +113,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { getGroups, refreshToken, getCommand })(Group)
+export default connect(mapStateToProps, { getGroups, refreshToken, getCommand, deleteGroup })(Group)

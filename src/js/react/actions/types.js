@@ -29,3 +29,5 @@ export const GET_GROUP = 'GET_GROUP';
 export const GET_GROUP_ERR = 'GET_GROUP_ERR';
 export const POST_GROUP = 'POST_GROUP';
 export const POST_GROUP_ERR = 'POST_GROUP_ERR';
+export const DELETE_GROUP = 'DELETE_GROUP';
+export const DELETE_GROUP_ERR = 'DELETE_GROUP_ERR';
