@@ -1,4 +1,5 @@
 import { getGroups, deleteGroup } from '../../actions/groupActions'
+import { postExecution } from '../../actions/executionActions'
 import { refreshToken } from '../../actions/authActions'
 import { connect } from 'react-redux'
 import _ from 'lodash'
@@ -28,6 +29,15 @@ class Group extends React.Component {
     this.props.deleteGroup(data).then(() => {
       this.props.getGroups();
     })
+  }
+
+  executedGroupEvent(data) {
+    let submitted = {
+      group: data
+    }
+    this.props.postExecution(submitted).then(() => {
+      this.context.router.push('/execution')
+    });
   }
 
   render(){
@@ -78,13 +88,13 @@ class Group extends React.Component {
                       <button onClick={() => this.deleteGroupEvent(groups._id)} className="btn btn-sm btn-danger">
                               <i className="fa fa-trash-o"></i>
                       </button>
-                      <button className="btn btn-sm btn-success">
+                      <button onClick={() => this.executedGroupEvent(groups._id)} className="btn btn-sm btn-success">
                               <i className="fa fa-play-circle"></i>
                       </button>
                     </td>
                   </tr>
                 )
-            })) : (<tr>No records found</tr>)}
+            })) : (<tr></tr>)}
           </tbody>
         </table>
       </div>
@@ -98,7 +108,8 @@ Group.propTypes = {
   errors: React.PropTypes.object.isRequired,
   refreshToken: React.PropTypes.func,
   getCommand: React.PropTypes.func.isRequired,
-  deleteGroup: React.PropTypes.func.isRequired
+  deleteGroup: React.PropTypes.func.isRequired,
+  postExecution: React.PropTypes.func.isRequired
 }
 
 Group.contextTypes = {
@@ -113,4 +124,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { getGroups, refreshToken, getCommand, deleteGroup })(Group)
+export default connect(mapStateToProps, { getGroups, refreshToken, getCommand, deleteGroup, postExecution })(Group)

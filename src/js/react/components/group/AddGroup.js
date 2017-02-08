@@ -76,22 +76,28 @@ class AddGroup extends React.Component {
     e.preventDefault();
     this.setState({ isLoading: true });
 
-    const submittedCommands = this.state.commandValues.split(",");
-    const submittedGroups = this.state.groupValues.split(",");
     const membersArr = [];
-    submittedCommands.map((command, i) => {
-      membersArr.push({
-        _id: command,
-        type: "command"
-      })
-    });
 
-    submittedGroups.map((group, i) => {
-      membersArr.push({
-        _id: group,
-        type: "group"
-      })
-    });
+    if(this.state.commandValues != ""){
+      const submittedCommands = this.state.commandValues.split(",");
+      submittedCommands.map((command, i) => {
+        membersArr.push({
+          _id: command,
+          type: "command"
+        })
+      });
+    }
+
+    if(this.state.groupValues != ""){
+      const submittedGroups = this.state.groupValues.split(",");
+      submittedGroups.map((group, i) => {
+        membersArr.push({
+          _id: group,
+          type: "group"
+        })
+      });
+    }
+
 
     let data = {
       name: this.state.name,

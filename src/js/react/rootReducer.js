@@ -7,6 +7,7 @@ import commandReducer from './reducers/commandReducer'
 import userReducer from './reducers/userReducer'
 import roleReducer from './reducers/roleReducer'
 import groupReducer from './reducers/groupReducer'
+import executionReducer from './reducers/executionReducer'
 
 export default combineReducers({
   flashMessages,
@@ -14,5 +15,6 @@ export default combineReducers({
   commandReducer,
   userReducer,
   roleReducer,
-  groupReducer
+  groupReducer,
+  executionReducer
 });
