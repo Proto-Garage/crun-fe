@@ -5,6 +5,8 @@ import _ from 'lodash'
 import { Link } from "react-router"
 import Collapse, { Panel } from 'rc-collapse'
 import Moment from 'react-moment';
+import { getCommandById } from '../../actions/commandActions';
+import { getGroupById } from '../../actions/groupActions';
 
 class Execution extends React.Component {
   constructor(props) {
@@ -12,7 +14,8 @@ class Execution extends React.Component {
     this.state = {
       accordion: false,
       activeKey: [0],
-      time: 2
+      time: 2,
+      groupNames: {}
     };
 
     this.onChange = this.onChange.bind(this);
@@ -26,12 +29,32 @@ class Execution extends React.Component {
           this.props.getExecution()
         })
       }
+      const groupNamesArr = [];
+      this.props.executions.map((executions, i) => {
+        groupNamesArr.push(
+          this.generateGroupName(executions.status._id)
+        )
+      })
+      console.log('groupNamesArr: ', groupNamesArr);
+
     });
   }
 
   onChange(activeKey) {
     this.setState({
       activeKey
+    });
+  }
+
+  generateCommandName(commandId) {
+    this.props.getCommandById(commandId).then(() => {
+
+    });
+  }
+
+  generateGroupName(groupId) {
+    this.props.getGroupById(groupId).then(() => {
+      return this.props.group.name
     });
   }
 
@@ -125,11 +148,12 @@ class Execution extends React.Component {
     const items = [];
 
     if(this.props.executions){
+
       this.props.executions.map((executions, i) => {
         const statusClass = this.setStatusClass(executions.status.status);
         items.push(
           <Panel header={
-              <span>{executions._id}
+              <span>{executions.status._id}
                 <span className={`label ${statusClass} pull-right`}>{executions.status.status}</span>
                 <span><i className="fa fa-calendar-o"></i> <Moment>{executions.status.startedAt}</Moment></span>
                 <span><i className="fa fa-clock-o"></i> {this.millisToMinutesAndSeconds(executions.status.elapsedTime)}</span>
@@ -172,7 +196,9 @@ class Execution extends React.Component {
 Execution.propTypes = {
   getExecution: React.PropTypes.func.isRequired,
   errors: React.PropTypes.object.isRequired,
-  refreshToken: React.PropTypes.func
+  refreshToken: React.PropTypes.func,
+  getCommandById: React.PropTypes.func,
+  getGroupById: React.PropTypes.func
 }
 
 Execution.contextTypes = {
@@ -184,9 +210,11 @@ function mapStateToProps(state) {
   return{
     executions: state.executionReducer.executions,
     errors: state.executionReducer.errors,
-    links: state.executionReducer.links
+    links: state.executionReducer.links,
+    command: state.commandReducer.command,
+    group: state.groupReducer.group
   }
 
 }
 
-export default connect(mapStateToProps, { getExecution, refreshToken })(Execution);
+export default connect(mapStateToProps, { getExecution, refreshToken, getCommandById, getGroupById })(Execution);

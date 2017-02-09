@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {
   BASE_URL, GET_GROUP, GET_GROUP_ERR, POST_GROUP, POST_GROUP_ERR,
-  DELETE_GROUP, DELETE_GROUP_ERR
+  DELETE_GROUP, DELETE_GROUP_ERR, GET_GROUP_BY_ID, GET_GROUP_BY_ID_ERR
 } from './types';
 
 const instance = axios.create({
@@ -23,6 +23,22 @@ export function getGroupError(error) {
     groups: {},
     links: {},
     errors: error
+  }
+}
+
+export function dispatchGetGroupById(data) {
+  return {
+    type: GET_GROUP_BY_ID,
+    group: data.data,
+    links: data.links,
+    error: {}
+  }
+}
+
+export function getGroupByIdError (error) {
+  return {
+    type: GET_GROUP_BY_ID_ERR,
+    error: error
   }
 }
 
@@ -80,6 +96,21 @@ export function deleteGroup(data) {
     })
     .catch(error => {
       console.log('group delete error: ', error.response.data)
+    })
+  }
+}
+
+export function getGroupById(data) {
+  return dispatch => {
+    return instance.get(`/groups/${data}`).then(response => {
+      console.log('get group by id response: ', response.data)
+      const responseData = response.data
+      dispatch(dispatchGetGroupById(responseData))
+    })
+    .catch(error => {
+      console.log('get group by id response error: ', error.response.data)
+      const errData = error.response.data
+      dispatch(getGroupByIdError(errData))
     })
   }
 }

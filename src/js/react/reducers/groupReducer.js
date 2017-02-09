@@ -1,6 +1,6 @@
 import {
   GET_GROUP, GET_GROUP_ERR, POST_GROUP, POST_GROUP_ERR, GET_COMMAND,
-  GET_COMMAND_ERR
+  GET_COMMAND_ERR, GET_GROUP_BY_ID, GET_GROUP_BY_ID_ERR
 } from '../actions/types'
 
 const initialState = {
@@ -48,6 +48,18 @@ export default (state = initialState, action = {}) => {
       return {
         errors: action.errors,
         commands: {}
+      }
+    break;
+    case GET_GROUP_BY_ID:
+      return {
+        group: action.group,
+        links: action.links,
+        error: {}
+      }
+    break;
+    case GET_GROUP_BY_ID_ERR:
+      return {
+        errors: action.errors,
       }
     break;
     default: return state;
