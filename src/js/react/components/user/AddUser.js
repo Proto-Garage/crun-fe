@@ -1,9 +1,10 @@
 import TextFieldGroup from '../common/TextFieldGroup';
 import { postUser } from '../../actions/userAction';
 import { connect } from 'react-redux';
-import Select from 'react-select';
+import ReactSelect from 'react-select';
 import { getRoles} from '../../actions/roleActions';
 import _ from 'lodash';
+import Select from 'react-select';
 
 class AddUser extends React.Component {
   constructor (props) {
@@ -11,15 +12,15 @@ class AddUser extends React.Component {
     this.state = {
       username: '',
       password: '',
-      roles: [],
+      rolesOption: [],
       isLoading: false,
-      errors: {}
+      errors: {},
+      roleValues: []
     }
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.logChange = this.logChange.bind(this);
-
+    this.handleSelectChange = this.handleSelectChange.bind(this);
   }
 
 
@@ -31,11 +32,16 @@ class AddUser extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     this.setState({ isLoading: true });
-    console.log('submit data: ', this.state);
+
+    let submittedRoles = [];
+    if(this.state.roleValues != ""){
+      submittedRoles = this.state.roleValues.split(",");
+    }
 
     let data = {
       username: this.state.username,
-      password: this.state.password
+      password: this.state.password,
+      role: submittedRoles
     }
 
     this.props.postUser(data).then(() => {
@@ -49,11 +55,13 @@ class AddUser extends React.Component {
         }
       }
     );
+
   }
 
-  logChange(val) {
-      console.log("Selected: " + val);
-  }
+  handleSelectChange (value) {
+		console.log('You\'ve selected:', value);
+		this.setState({ roleValues: value });
+	}
 
   componentWillMount(){
     this.props.getRoles().then(() => {
@@ -63,19 +71,20 @@ class AddUser extends React.Component {
           this.props.getRoles()
         })
       }
+      const rolesArr = [];
+      this.props.roles.map((role, i) => {
+        rolesArr.push({label: role.name, value: role._id})
+      });
+      this.setState({rolesOption: rolesArr})
+
     })
   }
 
   render(){
 
-    const { username, password, role, isLoading, errors } = this.state;
+    const { username, password, role, confirmPassword, isLoading, errors } = this.state;
 
     const roleArr = _.valuesIn(this.props.roles);
-
-    const options =  [
-        { value: 'one', label: 'One' },
-        { value: 'two', label: 'Two', clearableValue: false }
-    ];
 
     return(
       <div className="col-md-6 col-md-offset-3">
@@ -96,6 +105,21 @@ class AddUser extends React.Component {
             onChange={this.onChange}
             type="password"
           />
+
+          <TextFieldGroup
+            field="confirmPassword"
+            label="Confirm Password"
+            value={confirmPassword}
+            error={errors.confirmPassword}
+            onChange={this.onChange}
+            type="password"
+          />
+
+          <div className="form-group">
+            <label className="control-label">Roles</label>
+            <Select multi simpleValue disabled={this.state.disabled} value={this.state.roleValues}
+            placeholder="Select Roles" options={this.state.rolesOption} onChange={this.handleSelectChange} />
+          </div>
 
           <div className="form-group"><button className="btn btn-primary" disabled={isLoading}>Create User</button></div>
         </form>

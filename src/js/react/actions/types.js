@@ -37,3 +37,5 @@ export const GET_EXECUTION = 'GET_EXECUTION';
 export const GET_EXECUTION_ERR = 'GET_EXECUTION_ERR';
 export const GET_GROUP_BY_ID = 'GET_GROUP_BY_ID';
 export const GET_GROUP_BY_ID_ERR = 'GET_GROUP_BY_ID_ERR';
+export const DELETE_USER = 'DELETE_USER';
+export const DELETE_USER_ERR = 'DELETE_USER_ERR';

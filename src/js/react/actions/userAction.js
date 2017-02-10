@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {
   SET_CURRENT_USER, GET_USER, GET_USER_ERR, BASE_URL,
-  POST_USER, POST_USER_ERR
+  POST_USER, POST_USER_ERR, DELETE_USER, DELETE_USER_ERR
 } from './types'
 
 const instance = axios.create({
@@ -15,6 +15,20 @@ export function disptachUsers(data) {
     links: data.links,
     errors: {}
 
+  }
+}
+
+export function dispatchDeleteUser(data) {
+  return {
+    type: DELETE_USER,
+    id: data._id
+  }
+}
+
+export function dispatchDeleteUserError(error) {
+  return {
+    type: DELETE_USER_ERR,
+    error: error
   }
 }
 
