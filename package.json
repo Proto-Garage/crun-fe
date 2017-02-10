@@ -9,7 +9,8 @@
   },
   "license": "ISC",
   "scripts": {
-    "test": "mocha -w dist/js/test/*.spec.js"
+    "test": "mocha -w dist/js/test/*.spec.js",
+    "build": "gulp"
   },
   "dependencies": {
     "axios": "^0.15.3",
