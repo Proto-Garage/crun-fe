@@ -19,6 +19,7 @@ class Execution extends React.Component {
     };
 
     this.onChange = this.onChange.bind(this);
+    this.onRefresh = this.onRefresh.bind(this);
   }
 
   componentWillMount(){
@@ -29,13 +30,19 @@ class Execution extends React.Component {
           this.props.getExecution()
         })
       }
-      const groupNamesArr = [];
-      this.props.executions.map((executions, i) => {
-        groupNamesArr.push(
-          this.generateGroupName(executions.status._id)
-        )
-      })
-      console.log('groupNamesArr: ', groupNamesArr);
+
+    });
+  }
+
+  onRefresh() {
+    console.log('refresh triggered');
+    this.props.getExecution().then(()=>{
+      console.log('get Execution response: ', this.props);
+      if(this.props.errors.code === 'UNAUTHORIZED'){
+        this.props.refreshToken().then(() => {
+          this.props.getExecution()
+        })
+      }
 
     });
   }
@@ -101,7 +108,7 @@ class Execution extends React.Component {
         items.push(
           <Panel header={
             <span>{members._id}
-              <span> <a onClick={() => this.bind(this)} href={members.log} target="_blank">Logs</a></span>
+              <span> <a href={members.log} target="_blank">Logs</a></span>
               <span className={`label ${statusClass} pull-right`}>{members.status}</span>
               <span><i className="fa fa-calendar-o"></i> <Moment>{members.startedAt}</Moment></span>
               <span><i className="fa fa-clock-o"></i> {this.millisToMinutesAndSeconds(members.elapsedTime)}</span>
@@ -180,6 +187,7 @@ class Execution extends React.Component {
 
     return (
       <div className="Execution">
+        <button className="add-btn btn btn-info" onClick={this.onRefresh.bind(this)} ><i className="fa fa-refresh"></i> Refresh</button>
         <h1>Executions</h1>
         <Collapse
           accordion={accordion}
