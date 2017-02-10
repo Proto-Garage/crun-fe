@@ -1,7 +1,9 @@
+import config from '../../../config.json';
+
 export const ADD_FLASH_MESSAGE = 'ADD_FLASH_MESSAGE';
 export const DELETE_FLASH_MESSAGE = 'DELETE_FLASH_MESSAGE';
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
-export const BASE_URL = 'http://139.59.60.15/';
+export const BASE_URL = config.apiBaseUrl;
 export const SHOW_ERROR = 'SHOW_ERROR';
 export const GET_COMMAND = 'GET_COMMAND';
 export const GET_COMMAND_BY_ID = 'GET_COMMAND_BY_ID';
