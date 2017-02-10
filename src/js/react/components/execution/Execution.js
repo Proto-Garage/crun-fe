@@ -20,6 +20,7 @@ class Execution extends React.Component {
 
     this.onChange = this.onChange.bind(this);
     this.onRefresh = this.onRefresh.bind(this);
+    this.redirecLog = this.redirecLog.bind(this);
   }
 
   componentWillMount(){
@@ -57,6 +58,10 @@ class Execution extends React.Component {
     this.props.getCommandById(commandId).then(() => {
 
     });
+  }
+
+  redirecLog() {
+
   }
 
   generateGroupName(groupId) {
@@ -108,7 +113,9 @@ class Execution extends React.Component {
         items.push(
           <Panel header={
             <span>{members._id}
-              <span> <a href={members.log} target="_blank">Logs</a></span>
+              {members.log ? (
+                <span> <a onClick={() => this.redirecLog.bind(this)}  href={members.log} target="_blank">Logs</a></span>
+              ) : (<span></span>)}
               <span className={`label ${statusClass} pull-right`}>{members.status}</span>
               <span><i className="fa fa-calendar-o"></i> <Moment>{members.startedAt}</Moment></span>
               <span><i className="fa fa-clock-o"></i> {this.millisToMinutesAndSeconds(members.elapsedTime)}</span>
