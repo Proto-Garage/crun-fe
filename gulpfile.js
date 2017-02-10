@@ -6,6 +6,7 @@ var concat = require('gulp-concat');
 
 let tasks = [
   'bootstrap-css',
+  'config',
   'react',
   'react-dom',
   'transpile',
@@ -25,6 +26,7 @@ tasks.forEach(function(name) {
 
 //JS
 gulp.task('browserify', [
+  'config',
   'transpile'
 ], function() {
   return browserify('./dist/js/react/App.js')
