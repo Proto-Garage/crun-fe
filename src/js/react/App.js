@@ -12,16 +12,13 @@ import { setCurrentUser } from './actions/authActions';
 import Select from 'react-select';
 import Collapse, { Panel } from 'rc-collapse';
 import Moment from 'react-moment';
-import {persistStore, autoRehydrate} from 'redux-persist'
 
 import routes from './routes';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose( autoRehydrate() );
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const store = createStore(rootReducer, composeEnhancers(
   applyMiddleware(thunk)
 ));
-
-persistStore(store)
 
 if (localStorage.jwtToken) {
   setAuthorizationToken(localStorage.jwtToken);
